@@ -131,3 +131,15 @@ update:
 	Build sandboxing disabled due to nsjail error. 
 	```
 	这个报错可以暂时忽略，不影响后面的编译步骤。若想运行 nsjail，可以尝试升级内核版本至5.XX或者启动 docker 时传入这些参数 `--security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt systempaths=unconfined` 或 `--privileged`。
+
+
+## 典型应用
+
+### YOLOX目标检测
+1、在部署完模型通过命令行对图片进行测试没问题，但是调用摄像头，进行imshow图像显示的问题
+报错信息如下：
+licheepi 4a python3.11 python虚拟环境中
+这个是错误信息
+cv2.error: OpenCV(4.5.4) /mnt/git/github/opencv-python/opencv/modules/highgui/src/window.cpp:1257: error: (-2:Unspecified error) The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Cocoa support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script in function 'cvNamedWindow'
+
+该问题的原因是：编译 opencv 的环境中没有 gtk2.0，所以，编译完成的 opencv 不支持图形界面相关的功能
